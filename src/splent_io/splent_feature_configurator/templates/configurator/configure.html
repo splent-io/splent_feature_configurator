@@ -1,7 +1,7 @@
 {% extends "public_base.html" %}
 {% import "configurator/_macros.html" as ck %}
 
-{% block title %}{{ _("Configurator") }} — {{ spl.name }}{% endblock %}
+{% block title %}{{ _("Configurator") }} · {{ spl.name }}{% endblock %}
 
 {% block hero %}
 <section class="store-hero store-hero--slim">
@@ -64,9 +64,9 @@
                 <h2 class="cfg-section__title">{{ ck.icon("git-branch") }}{{ group.owner }}</h2>
                 <p class="cfg-section__hint">
                     {% if group.required %}
-                    {{ _("Exclusive group: pick exactly one.") }}
+                    {{ _("Exclusive group. Pick exactly one.") }}
                     {% else %}
-                    {{ _("Exclusive group: pick one at most.") }}
+                    {{ _("Exclusive group. Pick one at most.") }}
                     {% endif %}
                 </p>
                 <div class="cfg-options">

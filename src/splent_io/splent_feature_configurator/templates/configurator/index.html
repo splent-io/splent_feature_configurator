@@ -1,13 +1,13 @@
 {% extends "public_base.html" %}
 {% import "configurator/_macros.html" as ck %}
 
-{% block title %}{{ _("Configurator") }} — {{ site.name }}{% endblock %}
+{% block title %}{{ _("Configurator") }} · {{ site.name }}{% endblock %}
 
 {% block hero %}
 <section class="store-hero store-hero--slim">
     <div class="container">
         <h1 class="store-hero__title">{{ _("Product configurator") }}</h1>
-        <p class="store-hero__subtitle">{{ _("Configure a product from a line in three steps: pick the line, select its features with live validation, and copy the exact splent commands.") }}</p>
+        <p class="store-hero__subtitle">{{ _("Pick a line, select its features with live validation, and copy the exact splent commands.") }}</p>
     </div>
 </section>
 {% endblock %}

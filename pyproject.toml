@@ -28,7 +28,7 @@ cli_version = "1.14.0"
 # Preserved across refreshes: description, category, tags, env, and
 # requires.features_manual (dependencies invisible to static analysis).
 [tool.splent.contract]
-description = "UVL configurator for the SPLENT marketplace: pick an SPL, select features with live variability validation, and get the exact splent commands to build the product"
+description = "UVL configurator for the SPLENT marketplace. Pick an SPL, select features with live variability validation, and get the exact splent commands to build the product"
 archetype = "light"
 
 [tool.splent.contract.provides]
