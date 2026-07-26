@@ -1,0 +1,8 @@
+# Compiled frontend bundles
+recursive-include src/splent_io/splent_feature_configurator/assets/dist *.js *.css *.map
+
+# Jinja templates (feature views + hook fragments)
+recursive-include src/splent_io/splent_feature_configurator/templates *.html
+
+# Alembic migration config and scripts
+recursive-include src/splent_io/splent_feature_configurator/migrations *.py *.ini *.mako

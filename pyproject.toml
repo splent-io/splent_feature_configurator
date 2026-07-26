@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=80.3.1", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "splent_feature_configurator"
+version = "0.0.1"
+readme = "README.md"
+requires-python = ">=3.13"
+
+dependencies = [
+
+]
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["*.tests", "*.tests.*"]
+
+[tool.splent]
+cli_version = "1.14.0"
+
+# ── Feature Contract (auto-generated) ────────────────────────────────────────
+# Do not edit manually — re-run `splent feature:contract --write` to refresh.
+# Preserved across refreshes: description, category, tags, env, and
+# requires.features_manual (dependencies invisible to static analysis).
+[tool.splent.contract]
+description = "UVL configurator for the SPLENT marketplace: pick an SPL, select features with live variability validation, and get the exact splent commands to build the product"
+archetype = "light"
+
+[tool.splent.contract.provides]
+routes     = ["/configurator", "/configurator/<spl_name>", "/configurator/<spl_name>/validate"]
+blueprints = []
+models     = []
+commands   = []
+hooks      = ["layout.sidebar.top"]
+services   = ["ConfiguratorService"]
+signals    = []
+translations = []
+docker     = []
+
+[tool.splent.contract.requires]
+features = []
+features_optional = ["marketplace"]
+env_vars = []
+signals  = []
+
+[tool.splent.contract.extensible]
+services  = ["ConfiguratorService"]
+templates = ["configurator/configure.html", "configurator/index.html"]
+models    = []
+hooks     = ["layout.sidebar.top"]
+routes    = false
