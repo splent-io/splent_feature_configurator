@@ -22,15 +22,3 @@
 <svg class="store-icon" width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{{ ICON_PATHS.get(name, "") | safe }}</svg>
 {%- endmacro %}
 
-{% macro steps(current) -%}
-{# The guided flow: 1 choose a line, 2 select features, 3 get the commands. #}
-<ol class="store-steps">
-    {% for num, label in [(1, _("Choose a line")), (2, _("Select features")), (3, _("Get the commands"))] %}
-    <li class="store-step {{ 'is-done' if num < current else ('is-active' if num == current) }}">
-        <span class="store-step__num">{% if num < current %}{{ icon("check", 12) }}{% else %}{{ num }}{% endif %}</span>
-        {{ label }}
-    </li>
-    {% if not loop.last %}<li class="store-step__sep" aria-hidden="true">{{ icon("arrow-right", 14) }}</li>{% endif %}
-    {% endfor %}
-</ol>
-{%- endmacro %}
