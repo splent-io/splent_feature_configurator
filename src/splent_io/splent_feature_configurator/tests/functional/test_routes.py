@@ -28,6 +28,9 @@ def _feature(package, presence="optional", group=None, group_kind=None):
 
 FAKE_INDEX = {
     "schema": 1,
+    # blog is deliberately absent: model features missing from the published
+    # index render marked as "external" in the configurator.
+    "features": [{"short": "base"}, {"short": "skin_a"}, {"short": "skin_b"}],
     "spls": [
         {
             "name": "demo_spl",
@@ -97,6 +100,18 @@ def test_configure_renders_feature_tree(configurator_client):
     assert b'type="checkbox"' in response.data
 
 
+def test_configure_marks_unpublished_features_as_external(configurator_client):
+    response = configurator_client.get("/configurator/demo_spl")
+    assert response.status_code == 200
+    html = response.data.decode("utf-8")
+    # blog is in the SPL model but not in the index features: tagged external.
+    assert 'cfg-option__ext' in html
+    blog_card = html.split('id="cfg-f-blog"')[1].split("</label>")[0]
+    assert "external" in blog_card
+    base_card = html.split('id="cfg-f-base"')[1].split("</label>")[0]
+    assert "cfg-option__ext" not in base_card
+
+
 def test_configure_unknown_spl_is_404(configurator_client):
     assert configurator_client.get("/configurator/ghost_spl").status_code == 404
 
@@ -120,7 +135,7 @@ def test_validate_valid_selection_returns_commands(configurator_client):
     assert "base" in data["auto_added"]
     assert data["commands"][0] == "splent product:create my_demo --spl demo_spl"
     assert data["commands"][-1] == "splent product:derive --dev"
-    assert "splent feature:add splent-io/splent_feature_blog" in data["commands"]
+    assert "splent feature:install splent-io/splent_feature_blog" in data["commands"]
 
 
 def test_validate_group_conflict_reports_violation(configurator_client):
@@ -143,3 +158,49 @@ def test_validate_unknown_spl_is_404(configurator_client):
         "/configurator/ghost_spl/validate", json={"selected": []}
     )
     assert response.status_code == 404
+
+
+# ── POST /validate with malformed payloads (public endpoint: 400, never 500) ──
+
+
+def test_validate_non_list_selected_is_400(configurator_client):
+    response = configurator_client.post(
+        "/configurator/demo_spl/validate", json={"selected": 5}
+    )
+    assert response.status_code == 400
+    assert response.get_json()["error"]
+
+
+def test_validate_non_string_selected_items_is_400(configurator_client):
+    response = configurator_client.post(
+        "/configurator/demo_spl/validate", json={"selected": [{"a": 1}]}
+    )
+    assert response.status_code == 400
+    assert response.get_json()["error"]
+
+
+def test_validate_non_dict_body_is_400(configurator_client):
+    response = configurator_client.post(
+        "/configurator/demo_spl/validate", json=[1, 2]
+    )
+    assert response.status_code == 400
+    assert response.get_json()["error"]
+
+
+def test_validate_missing_body_is_400(configurator_client):
+    response = configurator_client.post(
+        "/configurator/demo_spl/validate",
+        data="not json",
+        content_type="text/plain",
+    )
+    assert response.status_code == 400
+    assert response.get_json()["error"]
+
+
+def test_validate_non_string_product_name_is_400(configurator_client):
+    response = configurator_client.post(
+        "/configurator/demo_spl/validate",
+        json={"selected": ["skin_a"], "product_name": 123},
+    )
+    assert response.status_code == 400
+    assert response.get_json()["error"]

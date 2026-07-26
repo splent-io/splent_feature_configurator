@@ -111,12 +111,14 @@ def test_commands_are_correct_and_ordered(service):
     assert result["commands"] == [
         "splent product:create my_shop --spl demo_spl",
         "splent product:select my_shop",
-        # feature:add follows the model declaration order
-        "splent feature:add splent-io/splent_feature_base",
-        "splent feature:add splent-io/splent_feature_skin_a",
-        "splent feature:add splent-io/splent_feature_blog",
-        "splent feature:add splent-io/splent_feature_comments",
-        "splent feature:add splent-io/splent_feature_media",
+        # feature:install (clone + register + env) follows the model
+        # declaration order; feature:add would abort for repos that are not
+        # cloned in the workspace yet.
+        "splent feature:install splent-io/splent_feature_base",
+        "splent feature:install splent-io/splent_feature_skin_a",
+        "splent feature:install splent-io/splent_feature_blog",
+        "splent feature:install splent-io/splent_feature_comments",
+        "splent feature:install splent-io/splent_feature_media",
         "splent product:resolve",
         "splent product:derive --dev",
     ]
@@ -151,6 +153,34 @@ def test_feature_tree_buckets_and_group_required():
     assert group["owner"] == "skin"
     assert group["required"] is True
     assert [m["short"] for m in group["members"]] == ["skin_a", "skin_b"]
+
+
+def test_feature_tree_marks_features_absent_from_index_as_external():
+    # The model may reference features that are not published in the index
+    # (e.g. only on GitHub/PyPI): they are annotated, never dropped.
+    known = {"base", "skin_a", "skin_b", "blog", "comments"}
+    tree = ConfiguratorService().feature_tree(MODEL, known_shorts=known)
+    by_short = {
+        f["short"]: f
+        for f in tree["mandatory"] + tree["optional"] + tree["groups"][0]["members"]
+    }
+    assert by_short["media"]["external"] is True
+    assert all(
+        by_short[short]["external"] is False for short in known
+    )
+
+
+def test_index_feature_shorts_reads_index_features(monkeypatch):
+    svc = ConfiguratorService()
+    monkeypatch.setattr(
+        svc,
+        "get_index",
+        lambda: {
+            "schema": 1,
+            "features": [{"short": "base"}, {"short": "blog"}, {"nope": True}],
+        },
+    )
+    assert svc.index_feature_shorts() == {"base", "blog"}
 
 
 # ── index degradation (soft marketplace dependency) ───────────────────

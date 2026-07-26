@@ -49,15 +49,32 @@ def configure(spl_name):
     model = (spl or {}).get("model") or {}
     if not model.get("features"):
         abort(404)
-    tree = configurator_service.feature_tree(model)
+    # Model features absent from the index render marked as "external".
+    tree = configurator_service.feature_tree(
+        model, known_shorts=configurator_service.index_feature_shorts()
+    )
     return render_template("configurator/configure.html", spl=spl, tree=tree)
+
+
+def _bad_request(message):
+    return jsonify({"error": message}), 400
 
 
 @configurator_bp.route("/configurator/<spl_name>/validate", methods=["POST"])
 def validate_selection(spl_name):
-    payload = request.get_json(silent=True) or {}
+    # Public anonymous endpoint: malformed JSON must yield a clean 400,
+    # never a 500 with a stacktrace.
+    payload = request.get_json(silent=True)
+    if not isinstance(payload, dict):
+        return _bad_request(_("Request body must be a JSON object"))
     selected = payload.get("selected") or []
+    if not isinstance(selected, list) or not all(
+        isinstance(short, str) for short in selected
+    ):
+        return _bad_request(_("'selected' must be a list of feature names"))
     product_name = payload.get("product_name") or ""
+    if not isinstance(product_name, str):
+        return _bad_request(_("'product_name' must be a string"))
     result = configurator_service.validate(spl_name, selected, product_name)
     if result is None:
         abort(404)

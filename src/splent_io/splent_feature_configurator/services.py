@@ -132,15 +132,39 @@ class ConfiguratorService:
                 return spl
         return None
 
-    def feature_tree(self, model: dict) -> dict:
+    def index_feature_shorts(self) -> set[str]:
+        """Short names of the features published in the marketplace index.
+
+        An SPL model may reference features that are not published in the
+        index (e.g. only available on GitHub/PyPI); callers use this set to
+        mark them as *external* instead of linking to a missing detail page.
+        """
+        index = self.get_index() or {}
+        return {
+            feature.get("short")
+            for feature in index.get("features") or []
+            if isinstance(feature, dict) and feature.get("short")
+        }
+
+    def feature_tree(self, model: dict, known_shorts: set[str] | None = None) -> dict:
         """Shape the flat model into what the configurator page renders.
 
         Returns ``{"mandatory": [...], "optional": [...], "groups": [...]}``
         where each feature dict carries ``short`` plus its index attributes,
         and each group carries ``owner``, ``kind``, ``members`` and
         ``required`` (True when its members sit under ``mandatory``).
+
+        When ``known_shorts`` is given, every feature also carries
+        ``external``: True for model features absent from the index.
         """
         features = model.get("features") or {}
+
+        def entry(short: str) -> dict:
+            info = {"short": short, **features[short]}
+            if known_shorts is not None:
+                info["external"] = short not in known_shorts
+            return info
+
         groups = []
         grouped: set[str] = set()
         for group in model.get("alternative_groups") or []:
@@ -150,7 +174,7 @@ class ConfiguratorService:
                 {
                     "owner": group.get("owner"),
                     "kind": group.get("kind", "alternative"),
-                    "members": [{"short": m, **features[m]} for m in members],
+                    "members": [entry(m) for m in members],
                     "required": any(
                         features[m].get("presence") == "mandatory" for m in members
                     ),
@@ -161,7 +185,7 @@ class ConfiguratorService:
             if short in grouped:
                 continue
             bucket = mandatory if info.get("presence") == "mandatory" else optional
-            bucket.append({"short": short, **info})
+            bucket.append(entry(short))
         return {"mandatory": mandatory, "optional": optional, "groups": groups}
 
     # ── Variability validation (own logic, no solver, no network) ─────
@@ -279,7 +303,10 @@ class ConfiguratorService:
             if not package:
                 continue
             org = info.get("org") or DEFAULT_ORG
-            commands.append(f"splent feature:add {org}/{package}")
+            # feature:install clones the repo when it is not in the workspace
+            # yet (feature:add only registers already-cloned editable repos),
+            # so the recipe works for marketplace users starting from scratch.
+            commands.append(f"splent feature:install {org}/{package}")
         commands.append("splent product:resolve")
         commands.append("splent product:derive --dev")
         return commands
