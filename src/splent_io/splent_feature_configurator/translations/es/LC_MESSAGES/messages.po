@@ -1,0 +1,190 @@
+# Spanish translations for PROJECT.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-07-30 12:00+0000\n"
+"PO-Revision-Date: 2026-07-30 12:00+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: src/splent_io/splent_feature_configurator/routes.py:16
+#, python-format
+msgid "Feature '%(feature)s' does not exist in this SPL"
+msgstr "La feature '%(feature)s' no existe en esta SPL"
+
+#: src/splent_io/splent_feature_configurator/routes.py:21
+#, python-format
+msgid "'%(required_by)s' requires '%(feature)s', which is not in this SPL model"
+msgstr ""
+"'%(required_by)s' necesita '%(feature)s', que no está en este modelo de "
+"SPL"
+
+#: src/splent_io/splent_feature_configurator/routes.py:27
+#, python-format
+msgid "Group '%(group)s' is exclusive: choose only one of %(features)s"
+msgstr "El grupo '%(group)s' es exclusivo, elige solo una de %(features)s"
+
+#: src/splent_io/splent_feature_configurator/routes.py:33
+#, python-format
+msgid "Group '%(group)s' needs a choice: select one of %(features)s"
+msgstr "El grupo '%(group)s' necesita una elección, selecciona una de %(features)s"
+
+#: src/splent_io/splent_feature_configurator/routes.py:69
+msgid "Request body must be a JSON object"
+msgstr "El cuerpo de la petición tiene que ser un objeto JSON"
+
+#: src/splent_io/splent_feature_configurator/routes.py:74
+msgid "'selected' must be a list of feature names"
+msgstr "'selected' tiene que ser una lista de nombres de features"
+
+#: src/splent_io/splent_feature_configurator/routes.py:77
+msgid "'product_name' must be a string"
+msgstr "'product_name' tiene que ser una cadena de texto"
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:4
+#: src/splent_io/splent_feature_configurator/templates/configurator/index.html:4
+msgid "Configurator"
+msgstr "Configurador"
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:22
+msgid "All product lines"
+msgstr "Todas las líneas de producto"
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:31
+msgid "Product name"
+msgstr "Nombre del producto"
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:36
+msgid "Lowercase letters, digits and underscores."
+msgstr "Letras minúsculas, dígitos y guiones bajos."
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:42
+msgid "Core features"
+msgstr "Features del núcleo"
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:43
+msgid "Always included in every product of this line."
+msgstr "Se incluyen siempre en todos los productos de esta línea."
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:52
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:82
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:118
+msgid "external"
+msgstr "externa"
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:67
+msgid "Exclusive group. Pick exactly one."
+msgstr "Grupo exclusivo. Elige una y solo una."
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:69
+msgid "Exclusive group. Pick one at most."
+msgstr "Grupo exclusivo. Elige una como mucho."
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:96
+msgid "None"
+msgstr "Ninguna"
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:97
+msgid "skip this group"
+msgstr "saltar este grupo"
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:108
+msgid "Optional features"
+msgstr "Features opcionales"
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:109
+msgid "Dependencies are added automatically as you select."
+msgstr "Las dependencias se añaden solas según vas seleccionando."
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:112
+msgid "required by your selection"
+msgstr "necesaria para tu selección"
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:133
+msgid "Valid selection"
+msgstr "Selección válida"
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:137
+msgid "Invalid selection"
+msgstr "Selección no válida"
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:142
+msgid "Could not validate the selection. Check your connection and try again."
+msgstr ""
+"No se ha podido validar la selección. Comprueba tu conexión y vuelve a "
+"intentarlo."
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:146
+msgid "Added automatically"
+msgstr "Añadidas automáticamente"
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:147
+msgid "Required by your selection or by the product line."
+msgstr "Necesarias para tu selección o para la línea de producto."
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:152
+msgid "Build commands"
+msgstr "Comandos de construcción"
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:153
+msgid "Run these in your SPLENT workspace."
+msgstr "Ejecútalos en tu workspace de SPLENT."
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:159
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:160
+msgid "Copy commands"
+msgstr "Copiar comandos"
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/configure.html:159
+msgid "Copied"
+msgstr "Copiado"
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/index.html:9
+msgid "Product configurator"
+msgstr "Configurador de productos"
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/index.html:10
+msgid ""
+"Pick a line, select its features with live validation, and copy the exact"
+" splent commands."
+msgstr ""
+"Elige una línea, selecciona sus features con validación en directo y "
+"copia los comandos exactos de splent."
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/index.html:25
+msgid "No description available."
+msgstr "Sin descripción."
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/index.html:28
+#, python-format
+msgid "%(count)s features"
+msgstr "%(count)s features"
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/index.html:30
+msgid "Configure"
+msgstr "Configurar"
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/index.html:33
+msgid "Model not published"
+msgstr "Modelo sin publicar"
+
+#: src/splent_io/splent_feature_configurator/templates/configurator/index.html:42
+msgid ""
+"The marketplace index is not available right now. Try again once the "
+"index has been built or SPLENT_INDEX_URL is configured."
+msgstr ""
+"El índice del marketplace no está disponible ahora mismo. Vuelve a "
+"intentarlo cuando se haya construido el índice o cuando esté configurada "
+"SPLENT_INDEX_URL."
+
