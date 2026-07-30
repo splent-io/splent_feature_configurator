@@ -1,5 +1,17 @@
-# Compiled frontend bundles
-recursive-include src/splent_io/splent_feature_configurator/assets/dist *.js *.css *.map
+# Frontend assets: the whole tree, not only the compiled bundles.
+#
+# A feature that registers a plain stylesheet with register_asset("css", …)
+# serves it straight from assets/css, and a vendored library lives under
+# assets/vendor. Shipping assets/dist alone put no stylesheet at all in the
+# built package, so every production image came up without its theme, its
+# skin and its editor, while development looked fine because that path
+# installs the checkout in place and reads the files off disk.
+recursive-include src/splent_io/splent_feature_configurator/assets *.css *.js *.map *.json
+recursive-include src/splent_io/splent_feature_configurator/assets *.svg *.png *.jpg *.jpeg *.gif *.webp *.ico
+recursive-include src/splent_io/splent_feature_configurator/assets *.woff *.woff2 *.ttf *.eot
+
+# Build inputs, never shipped.
+prune src/splent_io/splent_feature_configurator/assets/node_modules
 
 # Jinja templates (feature views + hook fragments)
 recursive-include src/splent_io/splent_feature_configurator/templates *.html
